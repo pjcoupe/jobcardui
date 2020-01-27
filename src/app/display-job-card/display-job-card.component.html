@@ -1,0 +1,136 @@
+<div fxLayout="column" fxLayoutAlign="space-between stretch">
+
+    <div fxLayout="row">
+        <div fxFlex>
+            <mat-icon>vpn_key</mat-icon><small>{{job.jobID}}</small>
+        </div>
+        <div fxFlex>
+            <mat-icon>calendar_today</mat-icon><small>{{ job.jobDate | date: 'medium'}}</small>
+        </div>
+        <div fxFlex>
+            <mat-icon>phone</mat-icon><small>{{job.jobPhone || ''}}</small>
+        </div>
+        <div fxFlex>
+            <mat-icon>person</mat-icon><small>{{job.jobCustomer || ''}}</small>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+    <div fxLayout="row">
+        <div fxFlex>
+            <mat-icon>receipt</mat-icon>{{ job.jobOrderNumber || ''}}
+        </div>
+        <div fxFlex>
+            <mat-icon>email</mat-icon>{{job.jobEmail || ''}}
+        </div>
+        <div fxFlex>
+            <mat-icon>business</mat-icon>{{job.jobBusinessName || ''}}
+        </div>
+
+        <div fxFlex>
+            <mat-icon>home</mat-icon>{{job.jobAddress || ''}}
+        </div>
+
+    </div>
+    <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+
+
+    <div fxLayout="row">
+        <mat-form-field fxFlex *ngIf="job.jobFussyNotes">
+            <textarea [disabled]="disabled" matInput placeholder="Notes" [ngModel]="job.jobFussyNotes"></textarea>
+        </mat-form-field>
+        <mat-form-field fxFlex *ngIf="job.jobDelivery">
+            <input [disabled]="disabled" matInput placeholder="Delivery" [ngModel]="job.jobDelivery">
+        </mat-form-field>
+        <mat-form-field fxFlex *ngIf="job.jobReceivedFrom">
+            <input [disabled]="disabled" matInput placeholder="Received From" [ngModel]="job.jobReceivedFrom">
+        </mat-form-field>
+        <mat-form-field fxFlex *ngIf="job.jobPaymentBy">
+            <input [disabled]="disabled" matInput placeholder="Payment By" [ngModel]="job.jobPaymentBy">
+        </mat-form-field>
+        <mat-form-field fxFlex *ngIf="job.jobNotes">
+            <textarea [disabled]="disabled" matInput placeholder="Notes" [ngModel]="job.jobNotes"></textarea>
+        </mat-form-field>
+        <mat-form-field fxFlex *ngIf="job.jobCollected">
+            <input [disabled]="disabled" matInput placeholder="Collected" [ngModel]="job.jobCollected">
+        </mat-form-field>
+        <mat-form-field fxFlex *ngIf="job.jobDateRequired">
+            <input matInput [matDatepicker]="picker1" placeholder="Date Required" [value]="job.jobDateRequired">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field fxFlex *ngIf="job.jobDateCompleted">
+            <input matInput [matDatepicker]="picker2" placeholder="Date Completed" [value]="job.jobDateCompleted">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field fxFlex *ngIf="job.jobDatePaid">
+            <input matInput [matDatepicker]="picker3" placeholder="Date Paid" [value]="job.jobDateCompleted">
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
+
+    </div>
+
+    <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+    <div fxLayout="row">
+        <ng-container *ngFor="let suffixAndType of jobDetailInfo.suffixAndType">
+            <div fxFlex>
+                <b>{{suffixAndType.suffix}}</b>
+            </div>
+        </ng-container>
+    </div>
+
+    <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+    <ng-container *ngFor="let i of jobDetailFor">
+        <div fxLayout="row" *ngIf="hasJobDetailInfoNonNull(i)">
+            <ng-container *ngFor="let suffixAndType of jobDetailInfo.suffixAndType">
+                <div fxFlex>
+                    {{getJobDetailInfo(i, suffixAndType.suffix)}}
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+
+    <ng-container *ngFor="let name of repeatedNameList.names">
+        <div fxLayout="row" *ngIf="hasRepeatedNameNonNull(name)">
+            <ng-container *ngFor="let suffixAndType of repeatedNameList.suffixAndType">
+                <div fxFlex>
+                    {{getRepeatedNameInfo(name, suffixAndType.suffix)}}
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+    <ng-container *ngFor="let name of ['Freight', 'SubTotal', 'GST', 'TOTAL']">
+        <ng-container *ngIf="name === 'TOTAL'">
+            <b><mat-divider ></mat-divider></b>
+            <b><mat-divider ></mat-divider></b>
+        </ng-container>
+            
+        <div fxLayout="row">
+            <div fxFlex="60%"></div>
+            <div fxFlex="20%">
+                <b>{{name}}</b>
+            </div>
+            <div fxFlex="20%">
+                <b>{{job['job'+name] || ''}}</b>
+            </div>            
+        </div>
+        <ng-container *ngIf="name === 'TOTAL'">
+            <b><mat-divider ></mat-divider></b>
+            <b><mat-divider ></mat-divider></b>
+        </ng-container>
+    </ng-container>
+    
+    <div fxLayout="row">
+        <mat-slider fxFill thumbLabel [displayWith]="formatSliderLabel" tickInterval="auto" [min]="min" [max]="max" (input)="onSliderChange($event)">
+        </mat-slider>
+    </div>
+    <div fxFlex fxFlexOffset="50px" *ngIf="imageurl.length">
+        <img [src]="imageurl[imageIndex]" alt="" style="height: calc(40vh)">
+        <button mat-raised-button (click)="cycleImage()">Next Image</button>
+    </div>
+</div>

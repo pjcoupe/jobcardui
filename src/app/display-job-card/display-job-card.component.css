@@ -1,0 +1,7 @@
+/deep/ .mat-card-header-text {
+    width: 100%;
+    text-align: center; 
+}
+.mat-card-subtitle {
+    color: rgba(0,0,0,1);
+}

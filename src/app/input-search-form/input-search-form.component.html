@@ -1,0 +1,159 @@
+<div style="width: calc(100vw);height: calc(100vh);">
+	<mat-tab-group [dynamicHeight]="true">
+		<mat-tab label="Search">
+			<ng-template matTabContent>
+				<div style="height: calc(100vh - 50px)" fxLayout="column" fxLayoutAlign="space-around stretch">
+					<div fxFlex="80%">
+						<!--<mat-toolbar> <span class="title-center">Search</span></mat-toolbar>-->
+						<form (ngSubmit)="onSubmit()">
+
+
+							<div fxLayout="row" fxLayoutAlign="space-around none">
+								<div fxFlex="48%">
+									<mat-form-field fxFlexOffset="10px">
+										<input fxFill matInput [matDatepicker]="picker" name="chooseAfterDate"
+											placeholder="After date" [(ngModel)]="pickedAfterDate">
+
+										<mat-hint>Search After date</mat-hint>
+										<mat-datepicker-toggle matSuffix [for]="picker">
+											<mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+										</mat-datepicker-toggle>
+										<mat-datepicker #picker startView="month" [startAt]="afterDate">
+										</mat-datepicker>
+									</mat-form-field>
+								</div>
+								<div fxFlex></div>
+								<div fxFlex="48%">
+									<mat-form-field fxFlexOffset="-10px">
+										<input fxFill matInput [matDatepicker]="picker2" name="chooseBeforeDate"
+											placeholder="Before date" [(ngModel)]="pickedBeforeDate">
+										<mat-hint>Search Before date</mat-hint>
+										<mat-datepicker-toggle matSuffix [for]="picker2">
+											<mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+										</mat-datepicker-toggle>
+										<mat-datepicker #picker2 startView="month" [startAt]="beforeDate">
+										</mat-datepicker>
+									</mat-form-field>
+								</div>
+							</div>
+
+
+							<div fxLayout="row" fxLayoutAlign="space-around none">
+								<div fxFlex="30%">
+									<mat-form-field fxFlexOffset="10px" fxFill appearance="fill">
+										<input matInput [formControl]="phoneFormControl" placeholder="Phone">
+										<mat-icon matSuffix>phone</mat-icon>
+									</mat-form-field>
+								</div>
+								<div fxFlex></div>
+								<div fxFlex="30%">
+									<mat-form-field fxFill fxFlexOffset="-10px" appearance="fill">
+										<input matInput [formControl]="idFormControl" placeholder="ID">
+										<mat-icon matSuffix>vpn_key</mat-icon>
+										<mat-error *ngIf="phoneFormControl.hasError('pattern')">Only digits allowed.
+										</mat-error>
+										<mat-error *ngIf="phoneFormControl.hasError('minlength')">Must be at least 4
+											digits
+										</mat-error>
+									</mat-form-field>
+								</div>
+							</div>
+
+
+							<div fxLayout="row" fxLayoutAlign="space-around none">
+								<div fxFlex="48%">
+									<mat-form-field fxFlexOffset="10px" fxFill appearance="fill">
+										<input matInput [formControl]="customerFormControl" placeholder="Customer">
+										<mat-icon matSuffix>person</mat-icon>
+										<mat-error *ngIf="customerFormControl.hasError('minlength')">Customer Name must
+											be
+											at least 4
+											characters.</mat-error>
+									</mat-form-field>
+								</div>
+								<div fxFlex></div>
+								<div fxFlex="48%">
+									<mat-form-field fxFlexOffset="-10px" fxFill appearance="fill">
+										<input matInput [formControl]="orderNumberFormControl"
+											placeholder="Order Number">
+										<mat-icon matSuffix>receipt</mat-icon>
+										<mat-error *ngIf="orderNumberFormControl.hasError('minlength')">Order Number
+											must be
+											at least 4
+											characters.</mat-error>
+									</mat-form-field>
+								</div>
+							</div>
+
+							<div fxLayout="row" fxLayoutAlign="space-around none">
+								<div fxFlex="48%">
+									<mat-form-field fxFlexOffset="10px" fxFill appearance="fill">
+										<input matInput [formControl]="emailFormControl" placeholder="Email">
+										<mat-icon matSuffix>email</mat-icon>
+										<mat-error *ngIf="emailFormControl.hasError('pattern')">Invalid email
+										</mat-error>
+										<mat-error *ngIf="emailFormControl.hasError('minlength')">Email must be at least
+											7
+											characters.
+										</mat-error>
+									</mat-form-field>
+								</div>
+								<div fxFlex></div>
+								<div fxFlex="48%">
+									<mat-form-field fxFlexOffset="-10px" fxFill appearance="fill">
+										<input matInput [formControl]="addressFormControl" placeholder="Address">
+										<mat-icon matSuffix>home</mat-icon>
+										<mat-error *ngIf="phoneFormControl.hasError('minlength')">Address must be at
+											least
+											10
+											characters.
+										</mat-error>
+									</mat-form-field>
+								</div>
+							</div>
+
+
+
+
+							<div fxLayout="row" fxLayoutAlign="stretch stretch">
+
+								<!-- Register Button -->
+								<button fxFlex="100px" fxFlexOffset="10px" mat-raised-button color="accent"
+									type="submit">Search</button>
+
+								<div fxFlex></div>
+								<div fxFlex="100px">
+									<button fxFlex="100px" fxFlexOffset="-10px" mat-raised-button color="accent"
+										color="warn" type="button" (click)="clear()">Clear</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div fxFlex>
+
+					</div>
+					<div fxFlex="20px">
+						<small><i><b>
+									<ng-container *ngIf="results">
+										<label *ngIf="results.length === limit; else notLimited">
+											Limiting to {{results.length}}&nbsp;results.&nbsp;&nbsp;
+										</label>
+										<ng-template #notLimited>
+											{{results.length}}&nbsp;results.&nbsp;&nbsp;
+										</ng-template>
+									</ng-container>
+									Errors: {{error || 'no errors'}}
+								</b></i></small>
+					</div>
+				</div>
+			</ng-template>
+		</mat-tab>
+		<mat-tab *ngIf="results && results.length" [label]="results.length+' Results'">
+			<ng-template matTabContent>
+				<div style="height: calc(100vh - 50px)">
+					<display-job-card [results]="results" [index]="index"></display-job-card>
+				</div>
+			</ng-template>
+		</mat-tab>
+	</mat-tab-group>
+</div>
