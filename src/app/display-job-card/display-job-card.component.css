@@ -5,3 +5,17 @@
 .mat-card-subtitle {
     color: rgba(0,0,0,1);
 }
+.imgFill {
+    
+    height: min-content;
+    object-fit: contain;
+    object-position: center;
+
+  }
+.imgScaleDown {
+    
+    height: max-content;
+    object-fit: scale-down;
+    object-position: top;
+
+}

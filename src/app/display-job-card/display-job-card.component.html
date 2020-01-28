@@ -58,24 +58,24 @@
         <mat-form-field fxFlex="100px" *ngIf="job.jobCollected">
             <small><small><input [disabled]="disabled" matInput placeholder="Collected" [ngModel]="job.jobCollected"></small></small>
         </mat-form-field>
-       
-            <mat-form-field fxFlex="110px" *ngIf="job.jobDateRequired" [formGroup]="dateFormGroup">
-            <small><small><input matInput  fxFlex="100px"  [matDatepicker]="picker1" placeholder="Date Required" [value]="job.jobDateRequired" [formControlName]="picker1"></small></small>
+       <form [formGroup]="dateFormGroup">
+            <mat-form-field fxFlex="110px" *ngIf="job.jobDateRequired">
+            <small><small><input matInput  fxFlex="100px"  [matDatepicker]="picker1" placeholder="Date Required" [value]="job.jobDateRequired" formControlName="picker1"></small></small>
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
-            <mat-form-field fxFlex="110px" *ngIf="job.jobDateCompleted" [formGroup]="dateFormGroup">
-            <small><small><input matInput fxFlex="100px"  [matDatepicker]="picker2" placeholder="Date Completed" [value]="job.jobDateCompleted" [formControlName]="picker2"></small></small>
+            <mat-form-field fxFlex="110px" *ngIf="job.jobDateCompleted">
+            <small><small><input matInput fxFlex="100px"  [matDatepicker]="picker2" placeholder="Date Completed" [value]="job.jobDateCompleted" formControlName="picker2"></small></small>
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
             </mat-form-field>
             
-            <mat-form-field fxFlex="110px" *ngIf="job.jobDatePaid" [formGroup]="dateFormGroup">
-            <small><small><input matInput  fxFlex="100px"  [matDatepicker]="picker3" placeholder="Date Paid" [value]="job.jobDatePaid" [formControlName]="picker3"></small></small>
+            <mat-form-field fxFlex="110px" *ngIf="job.jobDatePaid" >
+            <small><small><input matInput  fxFlex="100px"  [matDatepicker]="picker3" placeholder="Date Paid" [value]="job.jobDatePaid" formControlName="picker3"></small></small>
                 <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                 <mat-datepicker [disabled]="disabled" #picker3></mat-datepicker>
             </mat-form-field>
-      
+        </form>
     </div>
 
     <mat-divider></mat-divider>
@@ -131,11 +131,17 @@
     </ng-container>
     
     
-    <mat-card *ngIf="imageurl.length">
-        <mat-card-header *ngIf="imageurl.length > 1">
-            <button style="width: 100%" mat-raised-button (click)="cycleImage()">Next Image</button>
-        </mat-card-header>
+    <div fxFill fxLayout="column" *ngIf="imageurl">
+       
+            <div fxLayout="row" fxLayoutAlign="stretch start">
+                <button fxFlex="50%" mat-raised-button color="accent" (click)="cycleImage()">Next Image</button>
+                <button fxFlex="50%" mat-raised-button  (click)="toggleScaleDown()">Scale</button>
+            </div>
+            <div fxFlex="20px" fxLayout="row" fxLayoutAlign="stretch start"></div>
+
+      
         
-        <img mat-card-image [src]="imageurl[imageIndex]" alt="">        
-    </mat-card>
+        <img  fxFill [class]="scale ? 'imgScaleDown' : 'imgFill'" [src]="imageurl" alt="">  
+        
+    <div>
 </div>
