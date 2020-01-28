@@ -131,7 +131,7 @@
     </ng-container>
     
     
-    <div fxFill fxLayout="column" *ngIf="imageurl">
+    <div fxFill fxLayout="column" *ngIf="imageDelayComplete && imageurl">
        
             <div fxLayout="row" fxLayoutAlign="stretch start">
                 <button fxFlex="50%" mat-raised-button color="accent" (click)="cycleImage()">Next Image</button>

@@ -24,6 +24,8 @@ export class DisplayJobCardComponent implements OnInit, OnChanges {
     toggleScaleDown(){
         this.scale = !this.scale;
     }
+    imageDelayComplete = true;
+    imageDelayTimer: any;
     imageIndex = 0;
     maxImageIndexArray: Array<number> = [];
     get maxImageIndex():number {
@@ -109,6 +111,10 @@ export class DisplayJobCardComponent implements OnInit, OnChanges {
     }
 
     private async init() {
+        this.imageDelayComplete = false;
+        if (this.imageDelayTimer){
+            clearTimeout(this.imageDelayTimer);
+        }
         if (this.results) {
             this.cachedImages.length = this.results.length;
             this.imageIndex = 0;
@@ -127,7 +133,11 @@ export class DisplayJobCardComponent implements OnInit, OnChanges {
                 this.jobDetailFor.push(i);
             }
             this.repeatedNameList = JobCardModel.getRepeatedNameList();
-            this.getImage();
+            this.imageDelayTimer = setTimeout( ()=>{
+                this.imageDelayComplete = true;
+                this.getImage();
+            }, 1500);
+            
         } else {
             this.max = 0;
             this.min = 0;
