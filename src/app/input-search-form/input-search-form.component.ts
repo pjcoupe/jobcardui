@@ -19,7 +19,7 @@ export class InputSearchFormComponent implements OnInit, AfterViewInit {
     doneSubmit = false;
     error: string;
     limit = 50;
-    index= 0;
+    index = 0;
 
 
     constructor(private http: HttpClient, private router: Router) {

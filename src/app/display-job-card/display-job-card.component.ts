@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { JobCardModel } from '../models/JobCardModel';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatSliderChange } from '@angular/material/slider';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -13,7 +13,9 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 export class DisplayJobCardComponent implements OnInit {
     @Input() results: Array<JobCardModel> = [];
     @Input() index = 0;
-    @Input() disabled = false;
+    @Input() disabled = true;
+
+    dateFormGroup: FormGroup;
 
     imageIndex = 0;
     public imageurl: Array<SafeUrl> = [];
@@ -28,6 +30,11 @@ export class DisplayJobCardComponent implements OnInit {
     constructor(private http: HttpClient, private domSanitizer: DomSanitizer) { }
 
     ngOnInit() {
+        this.dateFormGroup = new FormGroup({
+            picker1: new FormControl({disabled: this.disabled}),
+            picker2: new FormControl({disabled: this.disabled}),
+            picker3: new FormControl({disabled: this.disabled})
+        })
     }
 
     pad(n, width, z: string = '0') {        
@@ -35,16 +42,23 @@ export class DisplayJobCardComponent implements OnInit {
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     }
 
+    convertToCurrency(value:string): string {
+        if (/^\d+$/.test(value)){
+            value += ".00";
+        } else if (/^\d+\.\d$/.test(value)){
+            value += "0";
+        }
+        return value;
+    }
     getRepeatedNameInfo(name: string, suffix: string): string | number {
         let jobFieldName = "job" + name + suffix;
-        let value = this.job[jobFieldName];
-        return value || '';
+        return this.convertToCurrency(this.job[jobFieldName] || '');
+        
     }
 
     getJobDetailInfo(index: number, suffix: string): string | number {
-        let jobFieldName = "job" + suffix + this.pad(index, 2);
-        let value = this.job[jobFieldName];
-        return value || '';
+        let jobFieldName = "job" + suffix + this.pad(index, 2);        
+        return this.convertToCurrency(this.job[jobFieldName] || '');
     }
 
     hasRepeatedNameNonNull(name: string): boolean{

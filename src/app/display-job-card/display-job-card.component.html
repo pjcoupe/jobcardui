@@ -1,34 +1,37 @@
 <div fxLayout="column" fxLayoutAlign="space-between stretch">
-
+    <div fxFlex="15px"></div>
+        <mat-slider  fxFlexAlign="stretch" style="width: 100%;height: 40px" thumbLabel [displayWith]="formatSliderLabel" tickInterval="auto" [min]="min" [max]="max" (input)="onSliderChange($event)">
+        </mat-slider>
+    
     <div fxLayout="row">
         <div fxFlex>
-            <mat-icon>vpn_key</mat-icon><small>{{job.jobID}}</small>
+            <small><small><mat-icon>vpn_key</mat-icon>{{job.jobID}}</small></small>
         </div>
         <div fxFlex>
-            <mat-icon>calendar_today</mat-icon><small>{{ job.jobDate | date: 'medium'}}</small>
+            <small><small><mat-icon>calendar_today</mat-icon>{{ job.jobDate | date: 'medium'}}</small></small>
         </div>
         <div fxFlex>
-            <mat-icon>phone</mat-icon><small>{{job.jobPhone || ''}}</small>
+            <small><small><mat-icon>phone</mat-icon>{{job.jobPhone || ''}}</small></small>
         </div>
         <div fxFlex>
-            <mat-icon>person</mat-icon><small>{{job.jobCustomer || ''}}</small>
+            <small><small><mat-icon>person</mat-icon>{{job.jobCustomer || ''}}</small></small>
         </div>
     </div>
     <mat-divider></mat-divider>
     <mat-divider></mat-divider>
     <div fxLayout="row">
         <div fxFlex>
-            <mat-icon>receipt</mat-icon>{{ job.jobOrderNumber || ''}}
+            <small><small><mat-icon>receipt</mat-icon>{{ job.jobOrderNumber || ''}}</small></small>
         </div>
         <div fxFlex>
-            <mat-icon>email</mat-icon>{{job.jobEmail || ''}}
+            <small><small><mat-icon>email</mat-icon>{{job.jobEmail || ''}}</small></small>
         </div>
         <div fxFlex>
-            <mat-icon>business</mat-icon>{{job.jobBusinessName || ''}}
+            <small><small><mat-icon>business</mat-icon>{{job.jobBusinessName || ''}}</small></small>
         </div>
 
         <div fxFlex>
-            <mat-icon>home</mat-icon>{{job.jobAddress || ''}}
+            <small><small><mat-icon>home</mat-icon>{{job.jobAddress || ''}}</small></small>
         </div>
 
     </div>
@@ -37,40 +40,42 @@
 
 
     <div fxLayout="row">
-        <mat-form-field fxFlex *ngIf="job.jobFussyNotes">
-            <textarea [disabled]="disabled" matInput placeholder="Notes" [ngModel]="job.jobFussyNotes"></textarea>
+        <mat-form-field fxFlex="200px" *ngIf="job.jobFussyNotes">
+            <small><small><textarea [disabled]="disabled" matInput placeholder="Notes" [ngModel]="job.jobFussyNotes"></textarea></small></small>
         </mat-form-field>
-        <mat-form-field fxFlex *ngIf="job.jobDelivery">
-            <input [disabled]="disabled" matInput placeholder="Delivery" [ngModel]="job.jobDelivery">
+        <mat-form-field fxFlex="100px" *ngIf="job.jobDelivery">
+            <small><small><input [disabled]="disabled" matInput placeholder="Delivery" [ngModel]="job.jobDelivery"></small></small>
         </mat-form-field>
-        <mat-form-field fxFlex *ngIf="job.jobReceivedFrom">
-            <input [disabled]="disabled" matInput placeholder="Received From" [ngModel]="job.jobReceivedFrom">
+        <mat-form-field fxFlex="100px" *ngIf="job.jobReceivedFrom">
+            <small><small><input [disabled]="disabled" matInput placeholder="Received From" [ngModel]="job.jobReceivedFrom"></small></small>
         </mat-form-field>
-        <mat-form-field fxFlex *ngIf="job.jobPaymentBy">
-            <input [disabled]="disabled" matInput placeholder="Payment By" [ngModel]="job.jobPaymentBy">
+        <mat-form-field fxFlex="100px" *ngIf="job.jobPaymentBy">
+            <small><small><input [disabled]="disabled" matInput placeholder="Payment By" [ngModel]="job.jobPaymentBy"></small></small>
         </mat-form-field>
-        <mat-form-field fxFlex *ngIf="job.jobNotes">
-            <textarea [disabled]="disabled" matInput placeholder="Notes" [ngModel]="job.jobNotes"></textarea>
+        <mat-form-field fxFlex="200px" *ngIf="job.jobNotes">
+            <small><small><textarea [disabled]="disabled" matInput placeholder="Notes" [ngModel]="job.jobNotes"></textarea></small></small>
         </mat-form-field>
-        <mat-form-field fxFlex *ngIf="job.jobCollected">
-            <input [disabled]="disabled" matInput placeholder="Collected" [ngModel]="job.jobCollected">
+        <mat-form-field fxFlex="100px" *ngIf="job.jobCollected">
+            <small><small><input [disabled]="disabled" matInput placeholder="Collected" [ngModel]="job.jobCollected"></small></small>
         </mat-form-field>
-        <mat-form-field fxFlex *ngIf="job.jobDateRequired">
-            <input matInput [matDatepicker]="picker1" placeholder="Date Required" [value]="job.jobDateRequired">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker3></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field fxFlex *ngIf="job.jobDateCompleted">
-            <input matInput [matDatepicker]="picker2" placeholder="Date Completed" [value]="job.jobDateCompleted">
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker3></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field fxFlex *ngIf="job.jobDatePaid">
-            <input matInput [matDatepicker]="picker3" placeholder="Date Paid" [value]="job.jobDateCompleted">
-            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-            <mat-datepicker #picker3></mat-datepicker>
-        </mat-form-field>
-
+       
+            <mat-form-field fxFlex="110px" *ngIf="job.jobDateRequired" [formGroup]="dateFormGroup">
+            <small><small><input matInput  fxFlex="100px"  [matDatepicker]="picker1" placeholder="Date Required" [value]="job.jobDateRequired" [formControlName]="picker1"></small></small>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field fxFlex="110px" *ngIf="job.jobDateCompleted" [formGroup]="dateFormGroup">
+            <small><small><input matInput fxFlex="100px"  [matDatepicker]="picker2" placeholder="Date Completed" [value]="job.jobDateCompleted" [formControlName]="picker2"></small></small>
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+            
+            <mat-form-field fxFlex="110px" *ngIf="job.jobDatePaid" [formGroup]="dateFormGroup">
+            <small><small><input matInput  fxFlex="100px"  [matDatepicker]="picker3" placeholder="Date Paid" [value]="job.jobDatePaid" [formControlName]="picker3"></small></small>
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker [disabled]="disabled" #picker3></mat-datepicker>
+            </mat-form-field>
+      
     </div>
 
     <mat-divider></mat-divider>
@@ -78,7 +83,7 @@
     <div fxLayout="row">
         <ng-container *ngFor="let suffixAndType of jobDetailInfo.suffixAndType">
             <div fxFlex>
-                <b>{{suffixAndType.suffix}}</b>
+                <small><small><b>{{suffixAndType.suffix}}</b></small></small>
             </div>
         </ng-container>
     </div>
@@ -89,7 +94,7 @@
         <div fxLayout="row" *ngIf="hasJobDetailInfoNonNull(i)">
             <ng-container *ngFor="let suffixAndType of jobDetailInfo.suffixAndType">
                 <div fxFlex>
-                    {{getJobDetailInfo(i, suffixAndType.suffix)}}
+                    <small><small>{{getJobDetailInfo(i, suffixAndType.suffix)}}</small></small>
                 </div>
             </ng-container>
         </div>
@@ -99,7 +104,7 @@
         <div fxLayout="row" *ngIf="hasRepeatedNameNonNull(name)">
             <ng-container *ngFor="let suffixAndType of repeatedNameList.suffixAndType">
                 <div fxFlex>
-                    {{getRepeatedNameInfo(name, suffixAndType.suffix)}}
+                <small><small>{{getRepeatedNameInfo(name, suffixAndType.suffix)}}</small></small>
                 </div>
             </ng-container>
         </div>
@@ -113,10 +118,10 @@
         <div fxLayout="row">
             <div fxFlex="60%"></div>
             <div fxFlex="20%">
-                <b>{{name}}</b>
+            <small><small>{{name}}</small></small>
             </div>
             <div fxFlex="20%">
-                <b>{{job['job'+name] || ''}}</b>
+            <small><small>{{convertToCurrency(job['job'+name] || '')}}</small></small>
             </div>            
         </div>
         <ng-container *ngIf="name === 'TOTAL'">
@@ -125,12 +130,12 @@
         </ng-container>
     </ng-container>
     
-    <div fxLayout="row">
-        <mat-slider fxFill thumbLabel [displayWith]="formatSliderLabel" tickInterval="auto" [min]="min" [max]="max" (input)="onSliderChange($event)">
-        </mat-slider>
-    </div>
-    <div fxFlex fxFlexOffset="50px" *ngIf="imageurl.length">
-        <img [src]="imageurl[imageIndex]" alt="" style="height: calc(40vh)">
-        <button mat-raised-button (click)="cycleImage()">Next Image</button>
-    </div>
+    
+    <mat-card *ngIf="imageurl.length">
+        <mat-card-header *ngIf="imageurl.length > 1">
+            <button style="width: 100%" mat-raised-button (click)="cycleImage()">Next Image</button>
+        </mat-card-header>
+        
+        <img mat-card-image [src]="imageurl[imageIndex]" alt="">        
+    </mat-card>
 </div>
