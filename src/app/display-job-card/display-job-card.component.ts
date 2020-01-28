@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatSliderChange } from '@angular/material/slider';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'display-job-card',
@@ -18,6 +19,7 @@ export class DisplayJobCardComponent implements OnInit, OnChanges {
     dateFormGroup: FormGroup;
     cachedImages: Array<Array<SafeUrl>> = [];
 
+    private subscription: Subscription;
     scale = false;
     toggleScaleDown(){
         this.scale = !this.scale;
@@ -141,7 +143,10 @@ export class DisplayJobCardComponent implements OnInit, OnChanges {
         if (this.imageIndex < existing.length){
             this.imageurl = existing[this.imageIndex];
         } else {
-            this.http.get('/api/platingSearch/images/' + this.job.jobID + "?q=" + this.imageIndex).subscribe((result: string) => {
+            if (this.subscription){
+                this.subscription.unsubscribe();
+            }
+            this.subscription = this.http.get('/api/platingSearch/images/' + this.job.jobID + "?q=" + this.imageIndex).subscribe((result: string) => {
                 if (result) {
                     this.imageurl = this.domSanitizer.bypassSecurityTrustUrl(result);//"data:image/jpg;base64, " + result);
                     const security = this.imageurl ? this.imageurl["changingThisBreaksApplicationSecurity"]: null;
